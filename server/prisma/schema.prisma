@@ -283,6 +283,7 @@ model Fsm {
   workbookId                   String               @map("workbook_id")
   workbook                     Workbook             @relation(fields: [workbookId], references: [id])
   name                         String               @unique
+  description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
@@ -312,6 +313,7 @@ model FsmState {
   fsmId                        String               @map("fsm_id")
   fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
   name                         String               @unique
+  description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
@@ -326,6 +328,7 @@ model FsmTransition {
   fsmId                        String               @map("fsm_id")
   fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
   name                         String               @unique
+  description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
