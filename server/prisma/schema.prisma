@@ -282,7 +282,7 @@ model Fsm {
   id                           String               @id @default(cuid())
   workbookId                   String               @map("workbook_id")
   workbook                     Workbook             @relation(fields: [workbookId], references: [id])
-  name                         String               @unique
+  name                         String
   description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
@@ -291,6 +291,7 @@ model Fsm {
   ofFsmState                   FsmState[]
   ofFsmTransitions             FsmTransition[]
 
+  @@unique([workbookId, name])
   @@map("fsm")
   @@schema("public")
 }
@@ -301,9 +302,11 @@ model FsmActiveState {
   fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
   fsmStateId                   String               @map("fsm_state_id")
   fsmState                     FsmState             @relation(fields: [fsmStateId], references: [id])
+  description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
+  @@unique([fsmId, fsmStateId])
   @@map("fsm_active_state")
   @@schema("public")
 }
@@ -312,13 +315,16 @@ model FsmState {
   id                           String               @id @default(cuid())
   fsmId                        String               @map("fsm_id")
   fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
-  name                         String               @unique
+  name                         String
   description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
   ofFsmActiveState             FsmActiveState[]
+  ofFsmTransitionFroms         FsmTransition[]      @relation("from_state")
+  ofFsmTransitionTos           FsmTransition[]      @relation("to_state")
 
+  @@unique([fsmId, name])
   @@map("fsm_state")
   @@schema("public")
 }
@@ -327,11 +333,16 @@ model FsmTransition {
   id                           String               @id @default(cuid())
   fsmId                        String               @map("fsm_id")
   fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
-  name                         String               @unique
+  fromFsmStateId               String               @map("from_state_id")
+  fromFsmState                 FsmState             @relation("from_state", fields: [fromFsmStateId], references: [id])
+  toFsmStateId                 String               @map("to_state_id")
+  toFsmState                   FsmState             @relation("to_state", fields: [toFsmStateId], references: [id])
+  name                         String
   description                  String?
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
+  @@unique([fsmId, name])
   @@map("fsm_transition")
   @@schema("public")
 }
