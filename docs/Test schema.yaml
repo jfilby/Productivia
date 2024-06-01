@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: Test REST API
+  version: 1.0.0
+  description: >-
+    This is the OpenAPI specification of a testing REST API.
+servers:
+  - url: 'https://api.restful-api.dev/'
+paths:
+  '/objects/{objectId}':
+    get:
+      summary: Get an object by id
+      operationId: getObject
+      parameters:
+        - in: path
+          name: objectId
+          required: true
+          description: Object Id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+components:
+  schemas:
+    Object:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string

@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Productivia FSM API
+  version: 1.0.0
+  description: >-
+    This is the OpenAPI specification of the Productivia FSM Service. It can be used to create, update and query FSMs.
+servers:
+  - url: 'https://productivia-api.xyz/api/tools'
+paths:
+  /workbook/new:
+    post:
+      summary: Create a new workbook
+      operationId: createWorkbook
+      responses:
+        '201':
+          description: FSM created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workbook'
+  'fsms/fsm/{fsmId}':
+    get:
+      summary: Get an FSM by id
+      operationId: getFsmById
+      parameters:
+        - in: path
+          name: fsmId
+          required: true
+          description: FSM Id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An FSM.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FSM'
+  /fsms/set:
+    post:
+      summary: Create a new FSM
+      operationId: createFsm
+      requestBody:
+        description: FSM to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewFSM'
+      responses:
+        '201':
+          description: FSM created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FSM'
+components:
+  schemas:
+    NewFSM:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    FSM:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Workbook:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
