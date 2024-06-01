@@ -9,9 +9,10 @@ export class FsmService {
   fsmModel = new FsmModel()
 
   // Code
-  async getById(
+  async getByWorkbookIdAndId(
           prisma: any,
-          fsmId: string) {
+          fsmId: string,
+          workbookId: string) {
 
     // Debug
     const fnName = `${this.clName}.getById()`
@@ -20,8 +21,10 @@ export class FsmService {
     const fsm = await
             this.fsmModel.getById(
               prisma,
-              fsmId)
+              fsmId,
+              workbookId)
 
+    // Found?
     if (fsm == null) {
       return {
         status: true,
@@ -32,7 +35,7 @@ export class FsmService {
     // Return
     return {
       status: true,
-      found: false,
+      found: true,
       fsm: fsm
     }
   }
@@ -88,7 +91,8 @@ export class FsmService {
     // Return
     return {
       status: true,
-      fsmId: fsm.id
+      fsmId: fsm.id,
+      workbookId: fsm.workbookId
     }
   }
 }

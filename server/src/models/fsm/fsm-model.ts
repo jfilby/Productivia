@@ -29,7 +29,8 @@ export class FsmModel {
   }
 
   async getById(prisma: any,
-                id: string) {
+                id: string,
+                workbookId: string) {
 
     // Debug
     const fnName = `${this.clName}.getById()`
@@ -38,9 +39,10 @@ export class FsmModel {
     var fsm: any = null
 
     try {
-      fsm = await prisma.fsm.findUnique({
+      fsm = await prisma.fsm.findFirst({
         where: {
-          id: id
+          id: id,
+          workbookId: workbookId
         }
       })
     } catch(error: any) {

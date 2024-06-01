@@ -1,5 +1,6 @@
 # Remove any previously staged files
 rm -rf ./stage
+rm ./stage.7z
 
 # Stage files
 mkdir stage

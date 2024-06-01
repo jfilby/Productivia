@@ -1,4 +1,5 @@
 import { prisma } from '@/db'
+import { WorkbookModel } from '@/models/workbooks/workbook-model'
 import { FsmService } from '@/services/fsm/fsm-service'
 
 export default async function handler(req: any, res: any) {
@@ -17,21 +18,28 @@ export default async function handler(req: any, res: any) {
   }
 
   // Vars
-  const { workbookId, name, description } = req.body
+  var { workbookId } = req.body
+  const { name, description } = req.body
 
   // Validation
-  if (!workbookId) {
-    return res.status(400).json({
-      status: false,
-      msg: 'Parameter workbookId not specified'
-    })
-  }
-
   if (!name) {
     return res.status(400).json({
       status: false,
       msg: 'Parameter name not specified'
     })
+  }
+
+  // Create a new workbook if no workbookId was specified
+  const workbookModel = new WorkbookModel()
+
+  try {
+    const workbook = await
+      workbookModel.create(
+        prisma)
+
+    workbookId = workbook.id
+  } catch(error) {
+    console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }
 
   // Call service

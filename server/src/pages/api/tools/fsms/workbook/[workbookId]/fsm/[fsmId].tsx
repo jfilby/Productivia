@@ -9,13 +9,20 @@ export default async function handler(req: any, res: any) {
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
   // Vars
-  const { fsmId } = req.query
+  const { workbookId, fsmId } = req.query
 
   // Validation
   if (!fsmId) {
     return res.status(400).json({
       status: false,
       msg: 'Parameter fsmId not specified'
+    })
+  }
+
+  if (!workbookId) {
+    return res.status(400).json({
+      status: false,
+      msg: 'Parameter workbookId not specified, likely nothing created yet'
     })
   }
 
@@ -26,9 +33,10 @@ export default async function handler(req: any, res: any) {
 
   try {
     results = await
-      fsmService.getById(
+      fsmService.getByWorkbookIdAndId(
         prisma,
-        fsmId)
+        fsmId,
+        workbookId)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }
