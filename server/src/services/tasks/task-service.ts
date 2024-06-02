@@ -1,4 +1,5 @@
 import { TaskModel } from '@/models/tasks/task-model'
+import { TaskNoteModel } from '@/models/tasks/task-note-model'
 
 export class TaskService {
 
@@ -7,6 +8,7 @@ export class TaskService {
 
   // Models
   taskModel = new TaskModel()
+  taskNoteModel = new TaskNoteModel()
 
   // Code
   async getByTaskIdAndCreatedSessionId(
@@ -18,17 +20,34 @@ export class TaskService {
     const fnName = `${this.clName}.getByTaskIdAndCreatedSessionId()`
 
     // Get state
-    const task = await
-            this.taskModel.getByIdAndCreatedSessionId(
-              prisma,
-              taskId,
-              createdSessionId)
+    var task = await
+          this.taskModel.getByIdAndCreatedSessionId(
+            prisma,
+            taskId,
+            createdSessionId)
 
     if (task == null) {
       return {
         status: true
       }
     }
+
+    // Get child tasks
+    const childTasks = await
+            this.taskModel.getByParentIdAndCreatedSessionId(
+              prisma,
+              taskId,
+              createdSessionId)
+
+    task.childTasks = childTasks
+
+    // Get task notes
+    const taskNotes = await
+            this.taskNoteModel.getByTaskId(
+              prisma,
+              taskId)
+
+    task.taskNotes = taskNotes
 
     // Return
     return {
