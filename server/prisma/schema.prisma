@@ -17,82 +17,44 @@ datasource db {
 
 // Productivia
 
-model Fsm {
+model Task {
   id                           String               @id @default(cuid())
-  workbookId                   String               @map("workbook_id")
-  workbook                     Workbook             @relation(fields: [workbookId], references: [id])
+  parentId                     String?              @map("parent_id")
+  parent                       Task?                @relation("parent", fields: [parentId], references: [id])
   name                         String
   description                  String?
+  createdSessionId             String               @map("created_session_id")
+  createdSession               Session              @relation("session", fields: [createdSessionId], references: [id])
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
-  ofFsmActiveState             FsmActiveState[]
-  ofFsmState                   FsmState[]
-  ofFsmTransitions             FsmTransition[]
+  ofTasks                      Task[]               @relation("parent")
+  ofTaskNotes                  TaskNote[]
 
-  @@unique([workbookId, name])
-  @@map("fsm")
+  @@unique([createdSessionId, name])
+  @@map("task")
   @@schema("public")
 }
 
-model FsmActiveState {
+model TaskNote {
   id                           String               @id @default(cuid())
-  fsmId                        String               @map("fsm_id")
-  fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
-  fsmStateId                   String               @map("fsm_state_id")
-  fsmState                     FsmState             @relation(fields: [fsmStateId], references: [id])
-  description                  String?
+  taskId                       String?              @map("task_id")
+  task                         Task?                @relation(fields: [taskId], references: [id])
+  note                         String
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
-  @@unique([fsmId, fsmStateId])
-  @@map("fsm_active_state")
+  @@map("task_note")
   @@schema("public")
 }
 
-model FsmState {
-  id                           String               @id @default(cuid())
-  fsmId                        String               @map("fsm_id")
-  fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
-  name                         String
-  description                  String?
-  created                      DateTime             @default(now())
-  updated                      DateTime             @updatedAt
-
-  ofFsmActiveState             FsmActiveState[]
-  ofFsmTransitionFroms         FsmTransition[]      @relation("from_state")
-  ofFsmTransitionTos           FsmTransition[]      @relation("to_state")
-
-  @@unique([fsmId, name])
-  @@map("fsm_state")
-  @@schema("public")
-}
-
-model FsmTransition {
-  id                           String               @id @default(cuid())
-  fsmId                        String               @map("fsm_id")
-  fsm                          Fsm                  @relation(fields: [fsmId], references: [id])
-  fromFsmStateId               String               @map("from_state_id")
-  fromFsmState                 FsmState             @relation("from_state", fields: [fromFsmStateId], references: [id])
-  toFsmStateId                 String               @map("to_state_id")
-  toFsmState                   FsmState             @relation("to_state", fields: [toFsmStateId], references: [id])
-  name                         String
-  description                  String?
-  created                      DateTime             @default(now())
-  updated                      DateTime             @updatedAt
-
-  @@unique([fsmId, name])
-  @@map("fsm_transition")
-  @@schema("public")
-}
-
-model Workbook {
+model Session {
   id                           String               @id @default(cuid())
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
-  ofFsms                       Fsm[]
+  ofTasks                      Task[]               @relation("session")
 
-  @@map("workbook")
+  @@map("task_session")
   @@schema("public")
 }

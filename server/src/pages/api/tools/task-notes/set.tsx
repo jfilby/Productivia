@@ -1,42 +1,51 @@
 import { prisma } from '@/db'
-import { FsmService } from '@/services/fsm/fsm-service'
+import { TaskNoteModel } from '@/models/tasks/task-note-model'
 
 export default async function handler(req: any, res: any) {
 
   // Debug
-  const fnName = `pages/api/tools/fsms/workbook/[workbookId]/byFsmId/[fsmId]: handler()`
+  const fnName = `pages/api/tools/task-notes/set: handler()`
 
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
+  // Method validation
+  if (req.method !== 'POST') {
+    return res.status(405).json({
+      status: false,
+      msg: 'Method not allowed'
+    })
+  }
+
   // Vars
-  const { workbookId, fsmId } = req.query
+  const { id, taskId, note } = req.body
 
   // Validation
-  if (!fsmId) {
+  if (!taskId) {
     return res.status(400).json({
       status: false,
-      msg: 'Parameter fsmId not specified'
+      msg: 'Parameter taskId not specified'
     })
   }
 
-  if (!workbookId) {
+  if (!note) {
     return res.status(400).json({
       status: false,
-      msg: 'Parameter workbookId not specified, likely nothing created yet'
+      msg: 'Parameter note not specified'
     })
   }
 
-  // Call service
-  const fsmService = new FsmService()
+  // Save the note
+  const taskNoteModel = new TaskNoteModel()
 
   var results: any = undefined
 
   try {
     results = await
-      fsmService.getByWorkbookIdAndId(
+      taskNoteModel.upsert(
         prisma,
-        fsmId,
-        workbookId)
+        id,
+        taskId,
+        note)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }

@@ -1,10 +1,11 @@
 import { prisma } from '@/db'
-import { FsmStateService } from '@/services/fsm/fsm-state-service'
+import { SessionModel } from '@/models/sessions/session-model'
+import { TaskService } from '@/services/tasks/task-service'
 
 export default async function handler(req: any, res: any) {
 
   // Debug
-  const fnName = `pages/api/tools/fsm-states/set: handler()`
+  const fnName = `pages/api/tools/tasks/set: handler()`
 
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
@@ -17,7 +18,8 @@ export default async function handler(req: any, res: any) {
   }
 
   // Vars
-  const { fsmId, name, description } = req.body
+  var { createdSessionId } = req.body
+  const { parentId, name, description } = req.body
 
   // Validation
   if (!name) {
@@ -27,18 +29,32 @@ export default async function handler(req: any, res: any) {
     })
   }
 
+  // Create a new workbook if no workbookId was specified
+  const sessionModel = new SessionModel()
+
+  try {
+    const session = await
+            sessionModel.create(
+              prisma)
+
+    createdSessionId = session.id
+  } catch(error) {
+    console.error(`${fnName}: error: ${JSON.stringify(error)}`)
+  }
+
   // Call service
-  const fsmStateService = new FsmStateService()
+  const taskService = new TaskService()
 
   var results: any = undefined
 
   try {
     results = await
-      fsmStateService.set(
+      taskService.set(
         prisma,
-        fsmId,
+        parentId,
         name,
-        description)
+        description,
+        createdSessionId)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }

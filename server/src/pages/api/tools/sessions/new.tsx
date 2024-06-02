@@ -1,5 +1,5 @@
 import { prisma } from '@/db'
-import { WorkbookModel } from '@/models/workbooks/workbook-model'
+import { SessionModel } from '@/models/sessions/session-model'
 
 export default async function handler(req: any, res: any) {
 
@@ -17,13 +17,13 @@ export default async function handler(req: any, res: any) {
   }
 
   // Call service
-  const workbookModel = new WorkbookModel()
+  const sessionModel = new SessionModel()
 
-  var workbook: any = undefined
+  var session: any = undefined
 
   try {
-    workbook = await
-      workbookModel.create(
+    session = await
+      sessionModel.create(
         prisma)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
@@ -33,6 +33,6 @@ export default async function handler(req: any, res: any) {
   res.status(200).json({
     status: true,
     msg: 'OK',
-    workbook: workbook
+    session: session
   })
 }

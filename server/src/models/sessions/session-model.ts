@@ -1,7 +1,7 @@
-export class WorkbookModel {
+export class SessionModel {
 
   // Consts
-  clName = 'WorkbookModel'
+  clName = 'SessionModel'
 
   // Code
   async create(prisma: any) {
@@ -11,7 +11,7 @@ export class WorkbookModel {
 
     // Create record
     try {
-      return await prisma.workbook.create({
+      return await prisma.session.create({
         data: {
         }
       })
@@ -28,10 +28,10 @@ export class WorkbookModel {
     const fnName = `${this.clName}.getById()`
 
     // Query record
-    var workbook: any = undefined
+    var session: any = undefined
 
     try {
-      workbook = await prisma.workbook.findUnique({
+      session = await prisma.session.findUnique({
         where: {
           id: id
         }
@@ -44,6 +44,6 @@ export class WorkbookModel {
     }
 
     // Return OK
-    return workbook
+    return session
   }
 }

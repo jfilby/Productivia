@@ -1,42 +1,42 @@
 import { prisma } from '@/db'
-import { FsmTransitionService } from '@/services/fsm/fsm-transition-service'
+import { TaskService } from '@/services/tasks/task-service'
 
 export default async function handler(req: any, res: any) {
 
   // Debug
-  const fnName = `pages/api/tools/fsm-states/fsm/[fsmId]/byFsmStateId/[fsmStateId]: handler()`
+  const fnName = `pages/api/tools/tasks/session/[sessionId]/byTaskId/[taskId]: handler()`
 
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
   // Vars
-  const { fsmId, fsmTransitionId } = req.query
+  const { createdSessionId, taskId } = req.query
 
   // Validation
-  if (!fsmId) {
+  if (!taskId) {
     return res.status(400).json({
       status: false,
-      msg: 'Parameter fsmId not specified'
+      msg: 'Parameter taskId not specified'
     })
   }
 
-  if (!fsmTransitionId) {
+  if (!createdSessionId) {
     return res.status(400).json({
       status: false,
-      msg: 'Parameter fsmTransitionId not specified'
+      msg: 'Parameter createdSessionId not specified, likely nothing created yet'
     })
   }
 
   // Call service
-  const fsmTransitionService = new FsmTransitionService()
+  const taskService = new TaskService()
 
   var results: any = undefined
 
   try {
     results = await
-      fsmTransitionService.getByFsmIdAndFsmTransitionId(
+      taskService.getByTaskIdAndCreatedSessionId(
         prisma,
-        fsmId,
-        fsmTransitionId)
+        taskId,
+        createdSessionId)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }

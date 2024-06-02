@@ -1,25 +1,27 @@
-export class FsmStateModel {
+export class TaskModel {
 
   // Consts
-  clName = 'FsmStateModel'
+  clName = 'TaskModel'
 
   // Code
   async create(
           prisma: any,
-          fsmId: string,
+          parentId: string | undefined,
           name: string,
-          description: string | undefined) {
+          description: string | undefined,
+          createdSessionId: string) {
 
     // Debug
     const fnName = `${this.clName}.create()`
 
     // Create record
     try {
-      return await prisma.fsmState.create({
+      return await prisma.task.create({
         data: {
-          fsmId: fsmId,
+          parentId: parentId,
           name: name,
-          description: description
+          description: description,
+          createdSessionId: createdSessionId
         }
       })
     } catch(error) {
@@ -28,22 +30,22 @@ export class FsmStateModel {
     }
   }
 
-  async getByFsmIdAndFsmStateId(
+  async getByIdAndCreatedSessionId(
           prisma: any,
-          fsmId: string,
-          id: string) {
+          id: string,
+          createdSessionId: string) {
 
     // Debug
-    const fnName = `${this.clName}.getById()`
+    const fnName = `${this.clName}.getByIdAndCreatedSessionId()`
 
     // Query
-    var fsmState: any = null
+    var task: any = null
 
     try {
-      fsmState = await prisma.fsmState.findFirst({
+      task = await prisma.task.findFirst({
         where: {
-          fsmId: fsmId,
-          id: id
+          id: id,
+          createdSessionId: createdSessionId
         }
       })
     } catch(error: any) {
@@ -54,25 +56,25 @@ export class FsmStateModel {
     }
 
     // Return
-    return fsmState
+    return task
   }
 
-  async getByUniqueKey(
+  async getByNameAndCreatedSessionId(
           prisma: any,
-          fsmId: string,
-          name: string) {
+          name: string,
+          createdSessionId: string) {
 
     // Debug
-    const fnName = `${this.clName}.getByUniqueKey()`
+    const fnName = `${this.clName}.getByNameAndCreatedSessionId()`
 
     // Query
-    var fsmState: any = null
+    var task: any = null
 
     try {
-      fsmState = await prisma.fsmState.findFirst({
+      task = await prisma.task.findFirst({
         where: {
-          fsmId: fsmId,
-          name: name
+          name: name,
+          createdSessionId: createdSessionId
         }
       })
     } catch(error: any) {
@@ -83,13 +85,13 @@ export class FsmStateModel {
     }
 
     // Return
-    return fsmState
+    return task
   }
 
   async update(
           prisma: any,
           id: string,
-          fsmId: string,
+          parentId: string | undefined,
           name: string,
           description: string | undefined) {
 
@@ -98,9 +100,9 @@ export class FsmStateModel {
 
     // Create record
     try {
-      return await prisma.fsmState.update({
+      return await prisma.task.update({
         data: {
-          fsmId: fsmId,
+          parentId: parentId,
           name: name,
           description: description
         },
@@ -116,24 +118,27 @@ export class FsmStateModel {
 
   async upsert(prisma: any,
                id: string | undefined,
-               fsmId: string,
+               parentId: string | undefined,
                name: string,
-               description: string | undefined) {
+               description: string | undefined,
+               createdSessionId: string) {
 
     // Debug
     const fnName = `${this.clName}.upsert()`
 
     // If id isn't specified, try to get by the unique key
-    if (id == null) {
+    if ((id == null) &&
+        (name != null &&
+         createdSessionId != null)) {
 
-      const fsmState = await
-              this.getByUniqueKey(
+      const task = await
+              this.getByNameAndCreatedSessionId(
                 prisma,
-                fsmId,
-                name)
+                name,
+                createdSessionId)
 
-      if (fsmState != null) {
-        id = fsmState.id
+      if (task != null) {
+        id = task.id
       }
     }
 
@@ -144,9 +149,10 @@ export class FsmStateModel {
       return await
                this.create(
                  prisma,
-                 fsmId,
+                 parentId,
                  name,
-                 description)
+                 description,
+                 createdSessionId)
     } else {
 
       // Update
@@ -154,7 +160,7 @@ export class FsmStateModel {
                this.update(
                  prisma,
                  id,
-                 fsmId,
+                 parentId,
                  name,
                  description)
     }

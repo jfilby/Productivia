@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: Productivia API
+  version: 1.0.0
+  description: >-
+    This is the OpenAPI specification of the Productivia Service. It can be
+    used to interact with tasks and task notes.
+servers:
+  - url: 'https://productivia-api.xyz/api/tools'
+paths:
+  '/tasks/createdSession/{createdSessionId}/byTaskId/{taskId}':
+    get:
+      summary: Get a task by id
+      operationId: getTaskById
+      parameters:
+        - in: path
+          name: createdSessionId
+          required: true
+          description: Created Session Id
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Task Id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/set:
+    post:
+      summary: Create or update a task
+      operationId: setTask
+      requestBody:
+        description: Task to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetTask'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  '/task-notes/task/{taskId}':
+    get:
+      summary: Get notes by task id
+      operationId: getNotesByTaskId
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          description: Task Id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of task notes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /task-notes/set:
+    post:
+      summary: Create or update a task note
+      operationId: setTaskNote
+      requestBody:
+        description: Task to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetTaskNote'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskNote'
+components:
+  schemas:
+    SetTask:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Task:
+      type: object
+      required:
+        - id
+        - taskId
+        - name
+      properties:
+        id:
+          type: string
+        parentId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    SetTaskNote:
+      type: object
+      required:
+        - taskId
+        - note
+      properties:
+        taskId:
+          type: string
+        note:
+          type: string
+    TaskNote:
+      type: object
+      required:
+        - id
+        - taskId
+        - note
+      properties:
+        id:
+          type: string
+        taskId:
+          type: string
+        note:
+          type: string

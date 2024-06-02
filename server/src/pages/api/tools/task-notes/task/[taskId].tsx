@@ -1,42 +1,34 @@
 import { prisma } from '@/db'
-import { FsmStateService } from '@/services/fsm/fsm-state-service'
+import { TaskNoteModel } from '@/models/tasks/task-note-model'
 
 export default async function handler(req: any, res: any) {
 
   // Debug
-  const fnName = `pages/api/tools/fsm-states/fsm/[fsmId]/byFsmStateId/[fsmStateId]: handler()`
+  const fnName = `pages/api/tools/task-notes/task/[taskId]: handler()`
 
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
   // Vars
-  const { fsmId, fsmStateId } = req.query
+  const { taskId } = req.query
 
   // Validation
-  if (!fsmId) {
+  if (!taskId) {
     return res.status(400).json({
       status: false,
-      msg: 'Parameter fsmId not specified'
-    })
-  }
-
-  if (!fsmStateId) {
-    return res.status(400).json({
-      status: false,
-      msg: 'Parameter fsmStateId not specified'
+      msg: 'Parameter taskId not specified'
     })
   }
 
   // Call service
-  const fsmStateService = new FsmStateService()
+  const taskNoteModel = new TaskNoteModel()
 
   var results: any = undefined
 
   try {
     results = await
-      fsmStateService.getByFsmIdAndFsmStateId(
+      taskNoteModel.getByTaskId(
         prisma,
-        fsmId,
-        fsmStateId)
+        taskId)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }
