@@ -44,6 +44,7 @@ export class TaskService {
           id: string | undefined,
           parentId: string | undefined,
           name: string | undefined,
+          assignedTo: string | undefined,
           when: string | undefined,
           description: string | undefined,
           createdSessionId: string) {
@@ -58,6 +59,7 @@ export class TaskService {
               id,
               parentId,
               name,
+              assignedTo,
               when,
               description,
               createdSessionId)

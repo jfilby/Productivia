@@ -5,7 +5,6 @@ info:
   description: >-
     This is the OpenAPI specification of the Productivia Service. It can be
     used to interact with tasks and task notes.
-    When scheduling a task use the `when` field.
 servers:
   - url: 'https://productivia-api.xyz/api/tools'
 paths:
@@ -98,6 +97,10 @@ components:
           type: string
         name:
           type: string
+        assignedTo:
+          type: string
+        when:
+          type: string
     Task:
       type: object
       required:
@@ -110,6 +113,8 @@ components:
         parentId:
           type: string
         name:
+          type: string
+        assignedTo:
           type: string
         when:
           type: string

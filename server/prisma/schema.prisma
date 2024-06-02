@@ -22,6 +22,7 @@ model Task {
   parentId                     String?              @map("parent_id")
   parent                       Task?                @relation("parent", fields: [parentId], references: [id])
   name                         String
+  assignedTo                   String?              @map("assigned_to")
   when                         String?
   description                  String?
   createdSessionId             String               @map("created_session_id")

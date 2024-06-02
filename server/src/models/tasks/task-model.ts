@@ -8,6 +8,7 @@ export class TaskModel {
           prisma: any,
           parentId: string | undefined,
           name: string | undefined,
+          assignedTo: string | undefined,
           when: string | undefined,
           description: string | undefined,
           createdSessionId: string) {
@@ -21,6 +22,7 @@ export class TaskModel {
         data: {
           parentId: parentId,
           name: name,
+          assignedTo: assignedTo,
           when: when,
           description: description,
           createdSessionId: createdSessionId
@@ -95,6 +97,7 @@ export class TaskModel {
           id: string,
           parentId: string | undefined,
           name: string | undefined,
+          assignedTo: string | undefined,
           when: string | undefined,
           description: string | undefined) {
 
@@ -107,6 +110,7 @@ export class TaskModel {
         data: {
           parentId: parentId,
           name: name,
+          assignedTo: assignedTo,
           when: when,
           description: description
         },
@@ -124,6 +128,7 @@ export class TaskModel {
                id: string | undefined,
                parentId: string | undefined,
                name: string | undefined,
+               assignedTo: string | undefined,
                when: string | undefined,
                description: string | undefined,
                createdSessionId: string) {
@@ -156,6 +161,7 @@ export class TaskModel {
                  prisma,
                  parentId,
                  name,
+                 assignedTo,
                  when,
                  description,
                  createdSessionId)
@@ -168,6 +174,7 @@ export class TaskModel {
                  id,
                  parentId,
                  name,
+                 assignedTo,
                  when,
                  description)
     }
