@@ -51,7 +51,7 @@ export default async function handler(req: any, res: any) {
   }
 
   // Validate
-  if (taskNote.taskNote == null) {
+  if (taskNote == null) {
 
     return res.status(400).json({
       status: false,

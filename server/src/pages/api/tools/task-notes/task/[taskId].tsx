@@ -38,7 +38,7 @@ export default async function handler(req: any, res: any) {
   if (results.status === false) {
     return res.status(400).json({
       status: false,
-      msg: 'Failed to set the note'
+      msg: 'Failed to get the note'
     })
   }
 
