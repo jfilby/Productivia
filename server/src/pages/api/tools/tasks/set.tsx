@@ -19,7 +19,7 @@ export default async function handler(req: any, res: any) {
 
   // Vars
   var { createdSessionId } = req.body
-  const { parentId, name, description } = req.body
+  const { id, parentId, name, description } = req.body
 
   // Validation
   if (!name) {
@@ -51,6 +51,7 @@ export default async function handler(req: any, res: any) {
     results = await
       taskService.set(
         prisma,
+        id,
         parentId,
         name,
         description,

@@ -37,7 +37,7 @@ paths:
       summary: Create or update a task
       operationId: setTask
       requestBody:
-        description: Task to add
+        description: Task to set
         required: true
         content:
           application/json:
@@ -73,7 +73,7 @@ paths:
       summary: Create or update a task note
       operationId: setTaskNote
       requestBody:
-        description: Task to add
+        description: Task note to set
         required: true
         content:
           application/json:
@@ -93,6 +93,8 @@ components:
       required:
         - name
       properties:
+        id:
+          type: string
         name:
           type: string
     Task:
@@ -116,6 +118,8 @@ components:
         - taskId
         - note
       properties:
+        id:
+          type: string
         taskId:
           type: string
         note:

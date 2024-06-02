@@ -41,6 +41,7 @@ export class TaskService {
 
   async set(
           prisma: any,
+          id: string | undefined,
           parentId: string,
           name: string,
           description: string,
@@ -53,7 +54,7 @@ export class TaskService {
     const task = await
             this.taskModel.upsert(
               prisma,
-              undefined,  // id
+              id,
               parentId,
               name,
               description,
