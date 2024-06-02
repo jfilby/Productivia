@@ -22,10 +22,10 @@ export default async function handler(req: any, res: any) {
   // Call service
   const taskNoteModel = new TaskNoteModel()
 
-  var results: any = undefined
+  var taskNotes: any = undefined
 
   try {
-    results = await
+    taskNotes = await
       taskNoteModel.getByTaskId(
         prisma,
         taskId)
@@ -35,20 +35,13 @@ export default async function handler(req: any, res: any) {
 
 
   // Validate
-  if (results.status === false) {
+  if (taskNotes == null) {
     return res.status(400).json({
       status: false,
-      msg: 'Failed to get the note'
-    })
-  }
-
-  if (results.taskNote === null) {
-    return res.status(200).json({
-      status: false,
-      msg: 'No note found.'
+      msg: 'Failed to find notes.'
     })
   }
 
   // Respond
-  res.status(200).json(results.taskNote)
+  res.status(200).json(taskNotes)
 }
