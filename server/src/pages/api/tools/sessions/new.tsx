@@ -4,7 +4,7 @@ import { SessionModel } from '@/models/sessions/session-model'
 export default async function handler(req: any, res: any) {
 
   // Debug
-  const fnName = `pages/api/tools/workbooks/new: handler()`
+  const fnName = `pages/api/tools/sessions/new: handler()`
 
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
