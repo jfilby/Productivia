@@ -1,15 +1,15 @@
 import { prisma } from '@/db'
-import { FsmService } from '@/services/fsm/fsm-service'
+import { FsmStateService } from '@/services/fsm/fsm-state-service'
 
 export default async function handler(req: any, res: any) {
 
   // Debug
-  const fnName = `pages/api/tools/fsms/fsm/[fsmId]: handler()`
+  const fnName = `pages/api/tools/fsm-states/fsm/[fsmId]/byFsmStateId/[fsmStateId]: handler()`
 
   console.log(`${fnName}: ${JSON.stringify(req.body)}`)
 
   // Vars
-  const { workbookId, fsmId } = req.query
+  const { fsmId, fsmStateId } = req.query
 
   // Validation
   if (!fsmId) {
@@ -19,24 +19,24 @@ export default async function handler(req: any, res: any) {
     })
   }
 
-  if (!workbookId) {
+  if (!fsmStateId) {
     return res.status(400).json({
       status: false,
-      msg: 'Parameter workbookId not specified, likely nothing created yet'
+      msg: 'Parameter fsmStateId not specified'
     })
   }
 
   // Call service
-  const fsmService = new FsmService()
+  const fsmStateService = new FsmStateService()
 
   var results: any = undefined
 
   try {
     results = await
-      fsmService.getByWorkbookIdAndId(
+      fsmStateService.getByFsmIdAndFsmStateId(
         prisma,
         fsmId,
-        workbookId)
+        fsmStateId)
   } catch(error) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }

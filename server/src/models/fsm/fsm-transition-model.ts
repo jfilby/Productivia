@@ -32,18 +32,21 @@ export class FsmTransitionModel {
     }
   }
 
-  async getById(prisma: any,
-                id: string) {
+  async getByFsmIdAndId(
+          prisma: any,
+          fsmId: string,
+          id: string) {
 
     // Debug
-    const fnName = `${this.clName}.getById()`
+    const fnName = `${this.clName}.getByFsmIdAndId()`
 
     // Query
     var fsmTransition: any = null
 
     try {
-      fsmTransition = await prisma.fsmTransition.findUnique({
+      fsmTransition = await prisma.fsmTransition.findFirst({
         where: {
+          fsmId: fsmId,
           id: id
         }
       })

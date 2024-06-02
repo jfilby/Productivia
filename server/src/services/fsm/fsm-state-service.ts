@@ -9,48 +9,20 @@ export class FsmStateService {
   fsmStateModel = new FsmStateModel()
 
   // Code
-  async getById(
+  async getByFsmIdAndFsmStateId(
           prisma: any,
+          fsmId: string,
           fsmStateId: string) {
 
     // Debug
-    const fnName = `${this.clName}.getById()`
+    const fnName = `${this.clName}.getByFsmIdAndFsmStateId()`
 
     // Get state
     const fsmState = await
-            this.fsmStateModel.getById(
-              prisma,
-              fsmStateId)
-
-    if (fsmState == null) {
-      return {
-        status: true,
-        found: false
-      }
-    }
-
-    // Return
-    return {
-      status: true,
-      found: false,
-      fsmState: fsmState
-    }
-  }
-
-  async getByWorkbookIdAndName(
-          prisma: any,
-          fsmId: string,
-          name: string) {
-
-    // Debug
-    const fnName = `${this.clName}.getByWorkbookIdAndName()`
-
-    // Get state
-    const fsmState = await
-            this.fsmStateModel.getByUniqueKey(
+            this.fsmStateModel.getByFsmIdAndFsmStateId(
               prisma,
               fsmId,
-              name)
+              fsmStateId)
 
     if (fsmState == null) {
       return {

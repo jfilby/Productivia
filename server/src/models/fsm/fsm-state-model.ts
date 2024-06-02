@@ -28,8 +28,10 @@ export class FsmStateModel {
     }
   }
 
-  async getById(prisma: any,
-                id: string) {
+  async getByFsmIdAndFsmStateId(
+          prisma: any,
+          fsmId: string,
+          id: string) {
 
     // Debug
     const fnName = `${this.clName}.getById()`
@@ -38,8 +40,9 @@ export class FsmStateModel {
     var fsmState: any = null
 
     try {
-      fsmState = await prisma.fsmState.findUnique({
+      fsmState = await prisma.fsmState.findFirst({
         where: {
+          fsmId: fsmId,
           id: id
         }
       })

@@ -9,8 +9,9 @@ export class FsmTransitionService {
   fsmTransitionModel = new FsmTransitionModel()
 
   // Code
-  async getById(
+  async getByFsmIdAndFsmTransitionId(
           prisma: any,
+          fsmId: string,
           fsmTransitionId: string) {
 
     // Debug
@@ -18,39 +19,10 @@ export class FsmTransitionService {
 
     // Get transition
     const fsmTransition = await
-            this.fsmTransitionModel.getById(
-              prisma,
-              fsmTransitionId)
-
-    if (fsmTransition == null) {
-      return {
-        status: true,
-        found: false
-      }
-    }
-
-    // Return
-    return {
-      status: true,
-      found: false,
-      fsmTransition: fsmTransition
-    }
-  }
-
-  async getByWorkbookIdAndName(
-          prisma: any,
-          fsmId: string,
-          name: string) {
-
-    // Debug
-    const fnName = `${this.clName}.getByWorkbookIdAndName()`
-
-    // Get transition
-    const fsmTransition = await
-            this.fsmTransitionModel.getByUniqueKey(
+            this.fsmTransitionModel.getByFsmIdAndId(
               prisma,
               fsmId,
-              name)
+              fsmTransitionId)
 
     if (fsmTransition == null) {
       return {
