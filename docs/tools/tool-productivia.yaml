@@ -109,7 +109,7 @@ paths:
               $ref: '#/components/schemas/SetTaskNote'
       responses:
         '201':
-          description: Task created
+          description: Task note created
           content:
             application/json:
               schema:
