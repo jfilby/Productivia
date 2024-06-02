@@ -22,11 +22,16 @@ export default async function handler(req: any, res: any) {
   const { id, parentId, name, assignedTo, when, description } = req.body
 
   // Validation
-  if (!name) {
-    return res.status(400).json({
-      status: false,
-      msg: 'Parameter name not specified'
-    })
+  if (id == null) {
+
+    // Validate fields required if creating
+    if (name == null) {
+
+      return res.status(400).json({
+        status: false,
+        msg: 'Parameter name not specified (when id not specified)'
+      })
+    }
   }
 
   // Create a new workbook if no workbookId was specified
