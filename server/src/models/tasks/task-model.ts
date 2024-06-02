@@ -92,6 +92,28 @@ export class TaskModel {
     return task
   }
 
+  async getByParentIdAndCreatedSessionId(
+          prisma: any,
+          parentId: string,
+          createdSessionId: string) {
+
+    // Debug
+    const fnName = `${this.clName}.getByParentIdAndCreatedSessionId()`
+
+    // Query
+    try {
+      return await prisma.task.findMany({
+        where: {
+          parentId: parentId,
+          createdSessionId: createdSessionId
+        }
+      })
+    } catch(error: any) {
+      console.error(`${fnName}: error: ${error}`)
+      throw 'Prisma error'
+    }
+  }
+
   async update(
           prisma: any,
           id: string,

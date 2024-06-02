@@ -26,15 +26,13 @@ export class TaskService {
 
     if (task == null) {
       return {
-        status: true,
-        found: false
+        status: true
       }
     }
 
     // Return
     return {
       status: true,
-      found: false,
       task: task
     }
   }

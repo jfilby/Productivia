@@ -41,10 +41,25 @@ export default async function handler(req: any, res: any) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }
 
+  // Validate
+  if (results.status === false) {
+    return res.status(400).json({
+      status: false,
+      msg: 'Failed to set the task'
+    })
+  }
+
+  if (results.task === null) {
+    return res.status(200).json({
+      status: false,
+      msg: 'No task found.'
+    })
+  }
+
   // Respond
   res.status(200).json({
     status: true,
     msg: 'OK',
-    results: results
+    task: results.task
   })
 }

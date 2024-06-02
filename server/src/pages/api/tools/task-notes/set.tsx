@@ -50,10 +50,20 @@ export default async function handler(req: any, res: any) {
     console.error(`${fnName}: error: ${JSON.stringify(error)}`)
   }
 
+  // Validate
+  if (results.status === false ||
+      results.taskNote == null) {
+
+    return res.status(400).json({
+      status: false,
+      msg: 'Failed to set the note'
+    })
+  }
+
   // Respond
   res.status(200).json({
     status: true,
     msg: 'OK',
-    results: results
+    taskNote: results.taskNote
   })
 }

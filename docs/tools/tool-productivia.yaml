@@ -32,6 +32,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+  '/tasks/createdSession/{createdSessionId}/byParentId/{parentId}':
+    get:
+      summary: Get a task's immmediate child/dependency tasks, by the task's id
+      operationId: getTasksByParentId
+      parameters:
+        - in: path
+          name: createdSessionId
+          required: true
+          description: Created Session Id
+          schema:
+            type: string
+        - in: path
+          name: parentId
+          required: true
+          description: Task Parent Id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A task.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
   /tasks/set:
     post:
       summary: Create or update a task
