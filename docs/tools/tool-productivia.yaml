@@ -63,7 +63,7 @@ paths:
       summary: Create or update a task
       operationId: setTask
       requestBody:
-        description: Task to set
+        description: Task to set. If a createdSessionId is known, then use it.
         required: true
         content:
           application/json:
@@ -117,6 +117,8 @@ components:
     SetTask:
       type: object
       properties:
+        createdSessionId:
+          type: string
         id:
           type: string
         name:
@@ -129,21 +131,24 @@ components:
       type: object
       required:
         - id
-        - taskId
         - name
       properties:
         id:
           type: string
         parentId:
           type: string
+          nullable: true
         name:
           type: string
         assignedTo:
           type: string
+          nullable: true
         when:
           type: string
+          nullable: true
         description:
           type: string
+          nullable: true
     SetTaskNote:
       type: object
       required:

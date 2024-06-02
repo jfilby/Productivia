@@ -37,10 +37,10 @@ export default async function handler(req: any, res: any) {
   // Save the note
   const taskNoteModel = new TaskNoteModel()
 
-  var results: any = undefined
+  var taskNote: any = undefined
 
   try {
-    results = await
+    taskNote = await
       taskNoteModel.upsert(
         prisma,
         id,
@@ -51,8 +51,7 @@ export default async function handler(req: any, res: any) {
   }
 
   // Validate
-  if (results.status === false ||
-      results.taskNote == null) {
+  if (taskNote.taskNote == null) {
 
     return res.status(400).json({
       status: false,
@@ -61,9 +60,5 @@ export default async function handler(req: any, res: any) {
   }
 
   // Respond
-  res.status(200).json({
-    status: true,
-    msg: 'OK',
-    taskNote: results.taskNote
-  })
+  res.status(200).json(taskNote)
 }

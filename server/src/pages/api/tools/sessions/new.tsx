@@ -30,9 +30,5 @@ export default async function handler(req: any, res: any) {
   }
 
   // Respond
-  res.status(200).json({
-    status: true,
-    msg: 'OK',
-    session: session
-  })
+  res.status(200).json(session)
 }

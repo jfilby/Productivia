@@ -1,5 +1,6 @@
 import { prisma } from '@/db'
 import { SessionModel } from '@/models/sessions/session-model'
+import { TaskModel } from '@/models/tasks/task-model'
 import { TaskService } from '@/services/tasks/task-service'
 
 export default async function handler(req: any, res: any) {
@@ -34,17 +35,37 @@ export default async function handler(req: any, res: any) {
     }
   }
 
-  // Create a new workbook if no workbookId was specified
-  const sessionModel = new SessionModel()
+  if (createdSessionId == null) {
 
-  try {
-    const session = await
-            sessionModel.create(
-              prisma)
+    // If a parentId is specified, then get the createdSessionId from that
+    // task. This is a workaround for the Vertex AI Agent, currently using
+    // Gemini 1.0, which doesn't always use createdSessionId as an in
+    // parameter.
+    const taskModel = new TaskModel()
 
-    createdSessionId = session.id
-  } catch(error) {
-    console.error(`${fnName}: error: ${JSON.stringify(error)}`)
+    if (parentId != null) {
+
+      const parentTask = await
+              taskModel.getById(
+                prisma,
+                parentId)
+
+      createdSessionId = parentTask.createdSessionId
+    } else {
+
+      // Create a new session if no createdSessionId was specified
+      const sessionModel = new SessionModel()
+
+      try {
+        const session = await
+                sessionModel.create(
+                  prisma)
+
+        createdSessionId = session.id
+      } catch(error) {
+        console.error(`${fnName}: error: ${JSON.stringify(error)}`)
+      }
+    }
   }
 
   // Call service
@@ -78,9 +99,5 @@ export default async function handler(req: any, res: any) {
   }
 
   // Respond
-  res.status(200).json({
-    status: true,
-    msg: 'OK',
-    task: results.task
-  })
+  res.status(200).json(results.task)
 }

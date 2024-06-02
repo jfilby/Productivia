@@ -34,6 +34,33 @@ export class TaskModel {
     }
   }
 
+  async getById(
+          prisma: any,
+          id: string) {
+
+    // Debug
+    const fnName = `${this.clName}.getById()`
+
+    // Query
+    var task: any = null
+
+    try {
+      task = await prisma.task.findUnique({
+        where: {
+          id: id
+        }
+      })
+    } catch(error: any) {
+      if (!(error instanceof error.NotFound)) {
+        console.error(`${fnName}: error: ${error}`)
+        throw 'Prisma error'
+      }
+    }
+
+    // Return
+    return task
+  }
+
   async getByIdAndCreatedSessionId(
           prisma: any,
           id: string,

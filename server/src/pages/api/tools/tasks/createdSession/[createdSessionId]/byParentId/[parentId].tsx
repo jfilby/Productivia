@@ -42,9 +42,5 @@ export default async function handler(req: any, res: any) {
   }
 
   // Respond
-  res.status(200).json({
-    status: true,
-    msg: 'OK',
-    tasks: tasks
-  })
+  res.status(200).json(tasks)
 }
