@@ -7,7 +7,8 @@ export class TaskModel {
   async create(
           prisma: any,
           parentId: string | undefined,
-          name: string,
+          name: string | undefined,
+          when: string | undefined,
           description: string | undefined,
           createdSessionId: string) {
 
@@ -20,6 +21,7 @@ export class TaskModel {
         data: {
           parentId: parentId,
           name: name,
+          when: when,
           description: description,
           createdSessionId: createdSessionId
         }
@@ -92,7 +94,8 @@ export class TaskModel {
           prisma: any,
           id: string,
           parentId: string | undefined,
-          name: string,
+          name: string | undefined,
+          when: string | undefined,
           description: string | undefined) {
 
     // Debug
@@ -104,6 +107,7 @@ export class TaskModel {
         data: {
           parentId: parentId,
           name: name,
+          when: when,
           description: description
         },
         where: {
@@ -119,7 +123,8 @@ export class TaskModel {
   async upsert(prisma: any,
                id: string | undefined,
                parentId: string | undefined,
-               name: string,
+               name: string | undefined,
+               when: string | undefined,
                description: string | undefined,
                createdSessionId: string) {
 
@@ -151,6 +156,7 @@ export class TaskModel {
                  prisma,
                  parentId,
                  name,
+                 when,
                  description,
                  createdSessionId)
     } else {
@@ -162,6 +168,7 @@ export class TaskModel {
                  id,
                  parentId,
                  name,
+                 when,
                  description)
     }
   }

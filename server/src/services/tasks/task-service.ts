@@ -42,9 +42,10 @@ export class TaskService {
   async set(
           prisma: any,
           id: string | undefined,
-          parentId: string,
-          name: string,
-          description: string,
+          parentId: string | undefined,
+          name: string | undefined,
+          when: string | undefined,
+          description: string | undefined,
           createdSessionId: string) {
 
     // Debug
@@ -57,6 +58,7 @@ export class TaskService {
               id,
               parentId,
               name,
+              when,
               description,
               createdSessionId)
 
