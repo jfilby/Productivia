@@ -1,9 +1,21 @@
 # Problems encountered
 
+## Occasional chat failure
+
+Sometimes I encounter the error "Sorry something went wrong, can you repeat?".
+This error occurs for messages that have previously worked fine.
+
+This typically happens when when telling the agent to use a suggestion it
+generated as input for a tool.
+
+
 ## Tools sometimes struggled to map complex endpoints with the LLM
 
 The LLM struggles to work with the tool, this is likely due to the use of
 Gemini 1.0. If Gemini 1.5 was used it would likely improve.
+
+Sometimes the tool gets the mapping wrong, sometimes it outright fails (the
+"Failed to generate response" error).
 
 
 ## Couldn't add ref objects to a schema object

@@ -2,7 +2,7 @@
 
 1. Create a task called Energy saving to-do.
 
-2. Suggest energy savings for the geyser.
+2. Suggest energy savings for my geyser.
 
 3. Create a task named Geyser under the Energy saving to-do task, with the
    description: insulate the geyser, set the thermostat lower.
