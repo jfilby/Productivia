@@ -8,7 +8,8 @@
 
 4. Suggest a free weights routine for my schedule.
 
-5. Note that I want to do deadlift and squat on Monday, bench and arms on Thursday.
+5. Note that I want to do squat and bench on Monday, deadlift and pullups on
+   Thursday, under the Free weights task.
 
 6. Tell me about the Go to gym task in full.
 
