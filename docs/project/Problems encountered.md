@@ -5,8 +5,10 @@
 Sometimes I encounter the error "Sorry something went wrong, can you repeat?".
 This error occurs for messages that have previously worked fine.
 
-This typically happens when when telling the agent to use a suggestion it
-generated as input for a tool.
+This typically happens when:
+- Copying and pasting in rapid succession (e.g. from a test script).
+- Telling the agent to use a suggestion it generated as input for a tool, which
+  suggests an internal rate limiting issue.
 
 
 ## Tools sometimes struggled to map complex endpoints with the LLM
